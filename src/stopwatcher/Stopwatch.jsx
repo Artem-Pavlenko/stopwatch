@@ -19,7 +19,6 @@ const Stopwatch = () => {
     const [trigger, setTrigger] = useState(false)
     const [startStop, setStartStop] = useState(START)
 
-
     const fixTime = (num) => num < 10 ? '0' + num : num
 
     const onStartStop = () => {
@@ -45,7 +44,6 @@ const Stopwatch = () => {
     }
 
     const dblClick = () => {
-        debugger
         setTrigger(false)
         startStop === STOP && setStartStop(START)
     }
@@ -72,22 +70,15 @@ const Stopwatch = () => {
         }
     }, [trigger, sec, min])
 
-
-    useEffect( () => {
-        click && setTimeout( () => setClick(false), 300)
-    }, [click])
-    useEffect( () => {
-        click && touchedWait && setTimeout( () => setTouchedWait(false), 300)
-    }, [click, touchedWait])
-    useEffect( () => {
-        secClick && setTimeout( () => setSecClick(false), 300)
-    }, [secClick])
-    useEffect( () => {
+    // simulate double click
+    useEffect(() => {
+        click && setTimeout(() => setClick(false), 300)
+        click && touchedWait && setTimeout(() => setTouchedWait(false), 300)
+        secClick && setTimeout(() => setSecClick(false), 300)
         if (click && touchedWait && secClick) {
             dblClick()
         }
     }, [click, touchedWait, secClick])
-
 
     return (
         <div>
