@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {fromEvent, of, timer} from "rxjs"
+import './style.css'
 
 
 const StopwatchRxJs = () => {
@@ -75,8 +76,11 @@ const StopwatchRxJs = () => {
 
     // start observer
     useEffect(() => {
-        const timer$ = timer(1000, 1000)
+        let timer$
+        if (trigger) {
+            timer$ = timer(1000, 1000)
                 .subscribe(() => setSec(prev => prev + 1))
+        }
 
         return () => {
             timer$ && timer$.unsubscribe()

@@ -72,8 +72,8 @@ const Stopwatch = () => {
     }, [click, touchedWait, secClick])
 
     return (
-        <div>
-            <h1>Stopwatch</h1>
+        <div style={{border: '1px solid', padding: '20px'}}>
+            <h2>Stopwatch</h2>
             <span>{fixTime(hour)}:</span>
             <span>{fixTime(min)}:</span>
             <span>{fixTime(sec)}</span>

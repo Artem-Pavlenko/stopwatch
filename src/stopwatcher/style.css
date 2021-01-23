@@ -3,28 +3,13 @@
     font-family: sans-serif;
     text-align: center;
 }
-h1 {
-    font-size: 1.6rem;
-}
 
-button,
-input {
+
+button{
+    margin: 5px;
     font-size: 1.5rem;
+    border-radius: 10px;
+    outline: none;
 }
 
-.count-widget {
-    display: flex;
-    margin: auto;
-    justify-content: center;
-}
 
-.count-widget input {
-    width: 2em;
-    text-align: right;
-}
-
-.count-widget span {
-    font-size: 1.5rem;
-    width: 2em;
-    text-align: center;
-}
