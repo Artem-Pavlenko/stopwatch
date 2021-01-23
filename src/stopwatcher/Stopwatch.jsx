@@ -2,9 +2,6 @@ import React, {useState, useEffect} from 'react'
 
 const Stopwatch = () => {
 
-    const START = 'START'
-    const STOP = 'STOP'
-
     // time
     const [sec, setSec] = useState(0)
     const [min, setMin] = useState(0)
@@ -17,19 +14,18 @@ const Stopwatch = () => {
 
     // start/stop
     const [trigger, setTrigger] = useState(false)
-    const [startStop, setStartStop] = useState(START)
 
     const fixTime = (num) => num < 10 ? '0' + num : num
 
     const onStartStop = () => {
-        setStartStop(prev => prev === START ? STOP : START)
-        if (startStop === STOP) {
+        !trigger && setTrigger(true)
+        if (trigger) {
             setTrigger(false)
             reset()
-        } else if (startStop === START) {
-            setTrigger(true)
         }
     }
+
+    // console.log('click:', click, ' touched: ', touchedWait, ' second click: ', secClick)
 
     const reset = () => {
         setSec(0)
@@ -38,15 +34,11 @@ const Stopwatch = () => {
     }
 
     const wait = () => {
-        setClick(true)
-        setTouchedWait(true)
+        !click && setClick(true)
+        !touchedWait && setTouchedWait(true)
         click && touchedWait && setSecClick(true)
     }
 
-    const dblClick = () => {
-        setTrigger(false)
-        startStop === STOP && setStartStop(START)
-    }
 
     // tick-tack =)
     useEffect(() => {
@@ -75,9 +67,8 @@ const Stopwatch = () => {
         click && setTimeout(() => setClick(false), 300)
         click && touchedWait && setTimeout(() => setTouchedWait(false), 300)
         secClick && setTimeout(() => setSecClick(false), 300)
-        if (click && touchedWait && secClick) {
-            dblClick()
-        }
+        click && touchedWait && secClick &&  setTrigger(false)
+
     }, [click, touchedWait, secClick])
 
     return (
@@ -87,7 +78,7 @@ const Stopwatch = () => {
             <span>{fixTime(min)}:</span>
             <span>{fixTime(sec)}</span>
             <div>
-                <button onClick={onStartStop}>{startStop}</button>
+                <button onClick={onStartStop}>{trigger ? 'STOP' : 'START'}</button>
                 <button onClick={wait}>wait</button>
                 <button onClick={reset}>reset</button>
             </div>
