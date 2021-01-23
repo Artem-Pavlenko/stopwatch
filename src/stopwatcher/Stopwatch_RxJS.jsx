@@ -43,7 +43,10 @@ const StopwatchRxJs = () => {
 
     // reset button
     useEffect(() => {
-        const reset$ = fromEvent(resetRef.current, 'click').subscribe(() => reset())
+        const reset$ = fromEvent(resetRef.current, 'click').subscribe(() => {
+            setTrigger(true)
+            reset()
+        })
         return () => reset$.unsubscribe()
     }, [])
 

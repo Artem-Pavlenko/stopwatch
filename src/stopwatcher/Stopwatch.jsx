@@ -33,6 +33,11 @@ const Stopwatch = () => {
         setHour(0)
     }
 
+    const resetHandler = () => {
+        reset()
+        setTrigger(true)
+    }
+
     const wait = () => {
         !click && setClick(true)
         !touchedWait && setTouchedWait(true)
@@ -80,7 +85,7 @@ const Stopwatch = () => {
             <div>
                 <button onClick={onStartStop}>{trigger ? 'STOP' : 'START'}</button>
                 <button onClick={wait}>wait</button>
-                <button onClick={reset}>reset</button>
+                <button onClick={resetHandler}>reset</button>
             </div>
         </div>
     )
