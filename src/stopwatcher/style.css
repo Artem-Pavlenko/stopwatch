@@ -1,0 +1,30 @@
+:root {
+    font-size: 25px;
+    font-family: sans-serif;
+    text-align: center;
+}
+h1 {
+    font-size: 1.6rem;
+}
+
+button,
+input {
+    font-size: 1.5rem;
+}
+
+.count-widget {
+    display: flex;
+    margin: auto;
+    justify-content: center;
+}
+
+.count-widget input {
+    width: 2em;
+    text-align: right;
+}
+
+.count-widget span {
+    font-size: 1.5rem;
+    width: 2em;
+    text-align: center;
+}
