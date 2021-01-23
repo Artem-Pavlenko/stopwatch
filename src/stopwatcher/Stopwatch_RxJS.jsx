@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {fromEvent, of, timer} from "rxjs"
-import {timeout} from "rxjs/operators";
 
 
 const StopwatchRxJs = () => {
@@ -28,7 +27,6 @@ const StopwatchRxJs = () => {
         setMin(0)
         setHour(0)
     }
-
 
     // stop/start button
     useEffect(() => {
@@ -59,87 +57,28 @@ const StopwatchRxJs = () => {
         return () => wait$.unsubscribe()
     }, [click, touchedWait, secClick])
 
-    console.log('click:', click, ' touched: ', touchedWait, ' second click: ', secClick)
-
-    // useEffect(() => {
-    //     click && setTimeout(() => setClick(false), 300)
-    //     click && touchedWait && setTimeout(() => setTouchedWait(false), 300)
-    //     secClick && setTimeout(() => setSecClick(false), 300)
-    //     click && touchedWait && secClick &&  setTrigger(false)
-    //
-    // }, [click, touchedWait, secClick])
-
-
-    // wait
+    // simulate double click
     useEffect(() => {
-        let a$
-        if (click) {
-            a$ = of(click).pipe(timeout(500)).subscribe(() => {
-                // console.log('click set falsy value')
-                setTrigger(false)
-                setClick(false)
-            })
-        }
-        let b$
-        if (click && touchedWait) {
-            b$ = of(touchedWait).pipe(timeout(500)).subscribe(() => {
-                setTouchedWait(false)
-            })
-        }
-
-        let c$
-        if (secClick) {
-            c$ = of(secClick).pipe(timeout(500)).subscribe(() => {
-                setSecClick(false)
-            })
-        }
-
-        touchedWait && secClick &&  setTrigger(false)
+        const firstClick$ = of(click).subscribe(() => setTimeout(() => setClick(false), 300))
+        const wasTouched$ = of(touchedWait).subscribe(() => setTimeout(() => setTouchedWait(false), 300))
+        const secondClick$ = of(secClick).subscribe(() => setTimeout(() => setSecClick(false), 300))
+        const pause$ = of(touchedWait && secClick).subscribe( () => setTrigger(false))
 
         return () => {
-            a$ && a$.unsubscribe()
-            b$ && b$.unsubscribe()
-            c$ && c$.unsubscribe()
+            firstClick$.unsubscribe()
+            wasTouched$.unsubscribe()
+            secondClick$.unsubscribe()
+            pause$.unsubscribe()
         }
 
     }, [click, touchedWait, secClick])
 
-    // useEffect( () => {
-    //     let a$
-    //     if (click) {
-    //         a$ = of(click).pipe(timeout(300)).subscribe(() => {
-    //             // console.log('click set falsy value')
-    //             setClick(false)
-    //         })
-    //     }
-    //     return () => {
-    //         a$ && a$.unsubscribe()
-    //     }
-    // }, [click])
-    // useEffect( () => {
-    //     let b$
-    //     if (touchedWait) {
-    //         b$ = of(touchedWait).pipe(timeout(300)).subscribe(() => {
-    //             setTouchedWait(false)
-    //         })
-    //     }
-    //
-    //     return () => {
-    //         b$ && b$.unsubscribe()
-    //     }
-    // }, [touchedWait])
-
     // start observer
     useEffect(() => {
-        let timer$
-        if (trigger) {
-            timer$ = timer(1000, 1000)
+        const timer$ = timer(1000, 1000)
                 .subscribe(() => setSec(prev => prev + 1))
-        }
 
         return () => {
-            // проверка на случай первой перерисовки
-            // так как trigger меняется и запускается clearUp
             timer$ && timer$.unsubscribe()
         }
     }, [trigger])
